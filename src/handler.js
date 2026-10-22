@@ -47,7 +47,7 @@ async function handler(request) {
   return {
     status: 200,
     headers: { ...headers, 'Content-Type': html ? 'text/html; charset=utf-8' : 'text/plain; charset=utf-8' },
-    body: html ? template.replaceAll('IP_ADDRESS', ip) : ip,
+    body: html ? template.replaceAll('IP_ADDRESS', ip) : ip + "\n",
   };
 }
 
