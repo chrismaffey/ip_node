@@ -18,26 +18,26 @@ test('browser at root renders the supplied template', async () => {
 });
 
 for (const path of ['/ip', '/some/nested/path', '/?x=1', '/?flag', '/?']) {
-  test(`browser at ${path} receives only the IP`, async () => {
+  test(`browser at ${path} receives the IP with a trailing newline`, async () => {
     const response = await handler(request(path));
-    assert.equal(response.body, '203.0.113.10');
+    assert.equal(response.body, '203.0.113.10\n');
     assert.match(response.headers['Content-Type'], /^text\/plain/);
   });
 }
 
-test('curl receives only the IP even when accepting HTML', async () => {
+test('curl receives the IP with a trailing newline even when accepting HTML', async () => {
   const response = await handler(request('/', { ...browserHeaders, 'user-agent': 'curl/8.0' }));
-  assert.equal(response.body, '203.0.113.10');
+  assert.equal(response.body, '203.0.113.10\n');
 });
 
-test('unidentified clients receive plain text', async () => {
+test('unidentified clients receive plain text with a trailing newline', async () => {
   const response = await handler(request('/', { 'x-forwarded-for': '2001:db8::1' }));
-  assert.equal(response.body, '2001:db8::1');
+  assert.equal(response.body, '2001:db8::1\n');
 });
 
 test('uses the address appended by trusted ingress', async () => {
   const response = await handler(request('/', { 'x-forwarded-for': '198.51.100.9, 203.0.113.10:12345' }));
-  assert.equal(response.body, '203.0.113.10');
+  assert.equal(response.body, '203.0.113.10\n');
 });
 
 test('normalizes IPv4 and IPv6 with ports', () => {
