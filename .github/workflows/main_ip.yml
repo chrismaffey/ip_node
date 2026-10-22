@@ -11,7 +11,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '24' # set this to the node version to use (supports 8.x, 10.x, 12.x)
+  NODE_VERSION: '20.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
 
 jobs:
   build:
@@ -67,9 +67,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3F4A12FC5EC94A2698B1AEFEA1F22679 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BF581774ACC04359B9EA63D01CDB5696 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CB03B1689B57449F9A76208466410F6B }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_564761CA1E9642569032E3AB8D39422A }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_920124A9AA4549CF94F56EE7E15F1082 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4E0390A7DC7F459FA4084121CD53FFE0 }}
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
