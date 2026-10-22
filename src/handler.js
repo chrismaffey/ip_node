@@ -3,6 +3,7 @@ const { join } = require('node:path');
 const { isIP } = require('node:net');
 
 const template = readFileSync(join(__dirname, '..', 'template.html'), 'utf8');
+const favicon = readFileSync(join(__dirname, 'favicon.svg'), 'utf8');
 
 function normalizeIP(value) {
   const address = value.trim();
@@ -17,6 +18,19 @@ function normalizeIP(value) {
 }
 
 async function handler(request) {
+  const url = new URL(request.url);
+  if (url.pathname === '/favicon.svg') {
+    return {
+      status: 200,
+      headers: {
+        'Content-Type': 'image/svg+xml',
+        'Cache-Control': 'public, max-age=86400',
+        'X-Content-Type-Options': 'nosniff',
+      },
+      body: favicon,
+    };
+  }
+
   // The trusted ingress must append or replace this header. Use its final hop,
   // rather than a client-supplied first entry.
   const forwarded = request.headers.get('x-forwarded-for');
@@ -26,7 +40,6 @@ async function handler(request) {
     return { status: 503, headers: { ...headers, 'Content-Type': 'text/plain; charset=utf-8' }, body: 'Client IP address unavailable' };
   }
 
-  const url = new URL(request.url);
   const userAgent = request.headers.get('user-agent') || '';
   const acceptsHTML = /\btext\/html\b/i.test(request.headers.get('accept') || '');
   const browser = /^Mozilla\//i.test(userAgent) && !/curl\b/i.test(userAgent) && acceptsHTML;
