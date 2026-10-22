@@ -1,0 +1,15 @@
+services:
+  function:
+    build: .
+    platform: linux/amd64
+    environment:
+      FUNCTIONS_WORKER_RUNTIME: node
+      AzureWebJobsSecretStorageType: files
+  proxy:
+    image: nginx:stable-alpine
+    ports:
+      - "7071:80"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - function

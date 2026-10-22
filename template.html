@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+  <title>My IP Address</title>
+</head>
+<body>
+
+
+<input type="text" value="IP_ADDRESS" onfocus="this.select();" autofocus="autofocus" readonly>
+<div>Copied to clipboard</div>
+
+</body>
+</html>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  input {
+    margin: 40vh auto 0vh auto;
+    display: block;
+    width: 95vw;
+    height: 13vh;
+    font-size: 10vmin;
+    text-align: center;
+    border: none;
+    outline: none;
+    padding: 0px;
+  }
+
+  input:focus {
+    border: none;
+    outline: none;
+  }
+
+  div {
+    text-align: center;
+    font-size: 4vmin;
+    color: blue;
+    display: none;
+  }
+
+</style>
+
+<script>
+  document.querySelector('input').addEventListener('click', function () {
+    this.select();
+    this.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(this.value);
+    document.querySelector('div').style.display = 'block';
+    setTimeout(() => {
+      document.querySelector('div').style.display = 'none';
+    }, 1000);
+  });
+</script>
